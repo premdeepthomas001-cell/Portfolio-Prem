@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Thadigiri Premdeep — Instructional Designer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#050D1A;
+  --navy2:#0A1628;
+  --blue:#1A56A0;
+  --teal:#02C39A;
+  --teal2:#00A896;
+  --gold:#F4A261;
+  --white:#FFFFFF;
+  --offwhite:#F6F8FA;
+  --gray:#8892A0;
+  --lightgray:#E2EAF0;
+  --text:#1A202C;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--navy);
+  color:var(--white);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CUSTOM CURSOR */
+.cursor{
+  width:12px;height:12px;
+  background:var(--teal);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;
+  z-index:9999;
+  transition:transform 0.15s ease;
+  mix-blend-mode:difference;
+}
+.cursor-ring{
+  width:36px;height:36px;
+  border:1.5px solid var(--teal);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;
+  z-index:9998;
+  transition:all 0.25s ease;
+  opacity:0.6;
+}
+
+/* NOISE TEXTURE OVERLAY */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:1;
+  opacity:0.4;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  padding:1.2rem 4rem;
+  display:flex;align-items:center;justify-content:space-between;
+  backdrop-filter:blur(20px);
+  background:rgba(5,13,26,0.85);
+  border-bottom:1px solid rgba(2,195,154,0.1);
+  transition:all 0.3s;
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;font-weight:700;
+  color:var(--teal);
+  letter-spacing:0.02em;
+}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{
+  font-size:0.82rem;font-weight:500;
+  color:var(--gray);
+  text-decoration:none;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  transition:color 0.3s;
+}
+.nav-links a:hover{color:var(--teal);}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:8rem 4rem 4rem;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(26,86,160,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(2,195,154,0.08) 0%, transparent 50%);
+}
+
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(2,195,154,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(2,195,154,0.04) 1px, transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+}
+
+.hero-content{position:relative;z-index:2;max-width:800px;}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:rgba(2,195,154,0.1);
+  border:1px solid rgba(2,195,154,0.25);
+  border-radius:100px;
+  padding:0.4rem 1rem;
+  font-size:0.78rem;font-weight:500;
+  color:var(--teal);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  margin-bottom:1.8rem;
+  animation:fadeUp 0.8s ease both;
+}
+.hero-tag::before{
+  content:'';width:6px;height:6px;
+  background:var(--teal);border-radius:50%;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.5);}}
+
+.hero-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3.5rem,8vw,7rem);
+  font-weight:900;
+  line-height:0.95;
+  margin-bottom:1rem;
+  animation:fadeUp 0.8s 0.15s ease both;
+}
+.hero-name span{
+  display:block;
+  background:linear-gradient(135deg, var(--white) 0%, var(--teal) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-name .surname{color:var(--white);-webkit-text-fill-color:var(--white);}
+
+.hero-title{
+  font-size:1.1rem;font-weight:300;
+  color:var(--gray);
+  margin-bottom:2rem;
+  letter-spacing:0.02em;
+  animation:fadeUp 0.8s 0.3s ease both;
+}
+.hero-title strong{color:var(--white);font-weight:500;}
+
+.hero-desc{
+  font-size:1rem;line-height:1.8;
+  color:rgba(255,255,255,0.6);
+  max-width:560px;
+  margin-bottom:2.8rem;
+  animation:fadeUp 0.8s 0.45s ease both;
+}
+
+.hero-ctas{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  animation:fadeUp 0.8s 0.6s ease both;
+}
+.btn-primary{
+  padding:0.85rem 2rem;
+  background:var(--teal);
+  color:var(--navy);
+  border-radius:6px;
+  font-weight:600;font-size:0.9rem;
+  text-decoration:none;
+  transition:all 0.3s;
+  display:inline-flex;align-items:center;gap:0.5rem;
+}
+.btn-primary:hover{background:var(--teal2);transform:translateY(-2px);box-shadow:0 12px 30px rgba(2,195,154,0.3);}
+.btn-secondary{
+  padding:0.85rem 2rem;
+  border:1px solid rgba(255,255,255,0.2);
+  color:var(--white);
+  border-radius:6px;
+  font-weight:500;font-size:0.9rem;
+  text-decoration:none;
+  transition:all 0.3s;
+}
+.btn-secondary:hover{border-color:var(--teal);color:var(--teal);}
+
+.hero-stats{
+  position:absolute;right:4rem;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:1.5rem;
+  animation:fadeLeft 0.8s 0.7s ease both;
+}
+.stat-card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  padding:1.2rem 1.5rem;
+  text-align:center;
+  backdrop-filter:blur(10px);
+  transition:all 0.3s;
+}
+.stat-card:hover{border-color:rgba(2,195,154,0.3);transform:translateX(-4px);}
+.stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;font-weight:700;
+  color:var(--teal);
+  line-height:1;
+}
+.stat-label{font-size:0.72rem;color:var(--gray);margin-top:0.3rem;letter-spacing:0.05em;}
+
+/* SCROLL INDICATOR */
+.scroll-indicator{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+  color:var(--gray);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;
+  animation:fadeUp 1s 1s ease both;
+}
+.scroll-line{
+  width:1px;height:50px;
+  background:linear-gradient(to bottom, var(--teal), transparent);
+  animation:scrollDown 2s infinite;
+}
+@keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+/* SECTIONS */
+section{padding:6rem 4rem;position:relative;}
+.section-label{
+  font-family:'DM Mono',monospace;
+  font-size:0.72rem;font-weight:500;
+  color:var(--teal);
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  margin-bottom:0.8rem;
+}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,4vw,3rem);
+  font-weight:700;
+  line-height:1.1;
+  margin-bottom:3rem;
+}
+.section-title em{
+  font-style:italic;
+  color:var(--teal);
+}
+
+/* ABOUT */
+.about{background:var(--navy2);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.about-text p{
+  font-size:1rem;line-height:1.9;
+  color:rgba(255,255,255,0.65);
+  margin-bottom:1.2rem;
+}
+.about-text p strong{color:var(--white);}
+.about-tags{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.5rem;}
+.about-tag{
+  padding:0.35rem 0.9rem;
+  background:rgba(2,195,154,0.08);
+  border:1px solid rgba(2,195,154,0.2);
+  border-radius:100px;
+  font-size:0.78rem;color:var(--teal);
+  font-family:'DM Mono',monospace;
+}
+
+.about-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:2.5rem;
+  position:relative;
+  overflow:hidden;
+}
+.about-card::before{
+  content:'';
+  position:absolute;top:-50%;right:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(circle, rgba(2,195,154,0.06) 0%, transparent 60%);
+  pointer-events:none;
+}
+.about-card-item{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:1rem 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.about-card-item:last-child{border:none;}
+.about-card-icon{
+  width:38px;height:38px;
+  background:rgba(2,195,154,0.1);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.about-card-text strong{display:block;font-size:0.88rem;color:var(--white);margin-bottom:0.2rem;}
+.about-card-text span{font-size:0.8rem;color:var(--gray);}
+
+/* SKILLS */
+.skills{background:var(--navy);}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.skill-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;
+  padding:1.8rem;
+  transition:all 0.4s;
+  position:relative;overflow:hidden;
+}
+.skill-card::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg, var(--teal), var(--blue));
+  transform:scaleX(0);
+  transition:transform 0.4s;
+}
+.skill-card:hover{border-color:rgba(2,195,154,0.2);transform:translateY(-4px);}
+.skill-card:hover::after{transform:scaleX(1);}
+.skill-card-icon{font-size:1.8rem;margin-bottom:1rem;}
+.skill-card-title{font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:1rem;}
+.skill-items{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.skill-item{
+  font-size:0.72rem;
+  font-family:'DM Mono',monospace;
+  color:var(--gray);
+  background:rgba(255,255,255,0.04);
+  padding:0.25rem 0.6rem;
+  border-radius:4px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+
+/* EXPERIENCE */
+.experience{background:var(--navy2);}
+.exp-timeline{position:relative;padding-left:2rem;}
+.exp-timeline::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom, var(--teal), rgba(2,195,154,0.1));
+}
+.exp-item{
+  position:relative;
+  padding:0 0 3rem 2.5rem;
+}
+.exp-item::before{
+  content:'';
+  position:absolute;left:-5px;top:8px;
+  width:11px;height:11px;
+  background:var(--teal);
+  border-radius:50%;
+  box-shadow:0 0 0 3px rgba(2,195,154,0.15);
+}
+.exp-date{
+  font-family:'DM Mono',monospace;
+  font-size:0.72rem;color:var(--teal);
+  letter-spacing:0.08em;margin-bottom:0.5rem;
+}
+.exp-role{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:700;
+  color:var(--white);margin-bottom:0.2rem;
+}
+.exp-company{
+  font-size:0.9rem;color:var(--gray);
+  margin-bottom:1.2rem;
+}
+.exp-company span{color:var(--teal);}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:0.65rem;}
+.exp-bullets li{
+  font-size:0.9rem;line-height:1.7;
+  color:rgba(255,255,255,0.6);
+  padding-left:1.2rem;
+  position:relative;
+}
+.exp-bullets li::before{
+  content:'▸';
+  position:absolute;left:0;
+  color:var(--teal);font-size:0.75rem;top:0.1rem;
+}
+
+/* PROJECTS */
+.projects{background:var(--navy);}
+.projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;}
+.proj-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  overflow:hidden;
+  transition:all 0.4s;
+  position:relative;
+}
+.proj-card:hover{border-color:rgba(2,195,154,0.25);transform:translateY(-6px);box-shadow:0 24px 48px rgba(0,0,0,0.3);}
+.proj-card-top{
+  padding:2rem 2rem 1.5rem;
+  position:relative;
+}
+.proj-card-top::before{
+  content:'';
+  position:absolute;inset:0;
+  opacity:0.06;
+  background:linear-gradient(135deg, var(--teal), var(--blue));
+  transition:opacity 0.4s;
+}
+.proj-card:hover .proj-card-top::before{opacity:0.12;}
+.proj-badge{
+  display:inline-block;
+  font-family:'DM Mono',monospace;
+  font-size:0.68rem;color:var(--teal);
+  background:rgba(2,195,154,0.1);
+  border:1px solid rgba(2,195,154,0.2);
+  padding:0.25rem 0.7rem;
+  border-radius:100px;
+  margin-bottom:1rem;
+  letter-spacing:0.06em;
+}
+.proj-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.25rem;font-weight:700;
+  color:var(--white);margin-bottom:0.8rem;
+  position:relative;z-index:1;
+}
+.proj-desc{
+  font-size:0.87rem;line-height:1.7;
+  color:rgba(255,255,255,0.55);
+  position:relative;z-index:1;
+}
+.proj-card-bottom{
+  padding:1.2rem 2rem;
+  border-top:1px solid rgba(255,255,255,0.06);
+  display:flex;flex-wrap:wrap;gap:0.5rem;
+}
+.proj-tag{
+  font-size:0.7rem;
+  font-family:'DM Mono',monospace;
+  color:var(--gray);
+  background:rgba(255,255,255,0.04);
+  padding:0.2rem 0.6rem;
+  border-radius:4px;
+}
+
+/* EDUCATION */
+.education{background:var(--navy2);}
+.edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;}
+.edu-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+  padding:2rem;
+  transition:all 0.4s;
+  position:relative;overflow:hidden;
+}
+.edu-card:hover{border-color:rgba(2,195,154,0.2);transform:translateY(-3px);}
+.edu-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg, var(--teal), var(--blue));
+}
+.edu-degree{
+  font-family:'Playfair Display',serif;
+  font-size:1.15rem;font-weight:700;
+  color:var(--white);margin-bottom:0.4rem;
+}
+.edu-school{font-size:0.88rem;color:var(--teal);margin-bottom:0.3rem;font-weight:500;}
+.edu-year{font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--gray);}
+.edu-note{
+  font-size:0.8rem;color:rgba(255,255,255,0.4);
+  margin-top:0.8rem;line-height:1.6;
+  font-style:italic;
+}
+
+/* CERTIFICATIONS */
+.certs{background:var(--navy);}
+.certs-row{display:flex;flex-wrap:wrap;gap:1rem;}
+.cert-card{
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;
+  padding:1.2rem 1.6rem;
+  display:flex;align-items:center;gap:1rem;
+  transition:all 0.3s;
+}
+.cert-card:hover{border-color:rgba(244,162,97,0.3);transform:translateY(-2px);}
+.cert-icon{font-size:1.5rem;}
+.cert-name{font-size:0.88rem;font-weight:500;color:var(--white);}
+.cert-org{font-size:0.75rem;color:var(--gray);margin-top:0.15rem;}
+
+/* CONTACT */
+.contact{
+  background:var(--navy2);
+  text-align:center;
+}
+.contact-inner{max-width:600px;margin:0 auto;}
+.contact-sub{
+  font-size:1rem;color:rgba(255,255,255,0.5);
+  margin-bottom:3rem;line-height:1.7;
+}
+.contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;}
+.contact-link{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  padding:0.85rem 1.8rem;
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:8px;
+  color:var(--white);
+  text-decoration:none;
+  font-size:0.88rem;
+  transition:all 0.3s;
+}
+.contact-link:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px);}
+
+/* FOOTER */
+footer{
+  padding:2rem 4rem;
+  border-top:1px solid rgba(255,255,255,0.06);
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:0.78rem;color:var(--gray);
+}
+footer span{color:var(--teal);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:translateX(0);}}
+
+.reveal{opacity:0;transform:translateY(30px);transition:all 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+.reveal-delay-4{transition-delay:0.4s;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--navy);}
+::-webkit-scrollbar-thumb{background:var(--teal);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">TP.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Available for ID and L&D Roles</div>
+    <h1 class="hero-name">
+      <span>Thadigiri</span>
+      <span class="surname">Premdeep</span>
+    </h1>
+    <p class="hero-title">
+      <strong>Instructional Designer</strong> &nbsp;·&nbsp; Content Developer &nbsp;·&nbsp; L&D Specialist
+    </p>
+    <p class="hero-desc">
+      MA ELT from EFLU Hyderabad. Building learner-centred content for 2,000+ learners across 17+ universities at NxtWave EdTech. Experienced in Articulate Rise 360, Storyline, ADDIE, and Bloom's Taxonomy.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">View My Work →</a>
+      <a href="#contact" class="btn-secondary">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-num">2K+</div>
+      <div class="stat-label">Learners Reached</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">17+</div>
+      <div class="stat-label">Universities</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">30+</div>
+      <div class="stat-label">Modules Built</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">8</div>
+      <div class="stat-label">Rise 360 Modules</div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label">Who I Am</div>
+  <h2 class="section-title">Designing learning that <em>actually works</em></h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I am an <strong>Instructional Designer and Content Developer</strong> with an MA in English Language Teaching from The English and Foreign Languages University (EFLU), Hyderabad — one of India's premier language institutions.</p>
+      <p>At NxtWave, I design verbal ability content for 2,000+ learners across 17+ university partnerships, applying Bloom's Taxonomy and ADDIE to every module I build. My ELT background gives me a deep understanding of how people learn language — which I bring directly into every instructional decision.</p>
+      <p>My EFLU dissertation examined how AI speaking apps like Duolingo reduce learning anxiety and support personalised learning — a research-driven perspective that shapes how I think about learner experience and content design.</p>
+      <div class="about-tags">
+        <span class="about-tag">Bloom's Taxonomy</span>
+        <span class="about-tag">ADDIE</span>
+        <span class="about-tag">Rise 360</span>
+        <span class="about-tag">Storyline 360</span>
+        <span class="about-tag">SCORM 1.2</span>
+        <span class="about-tag">ELT</span>
+        <span class="about-tag">Applied Linguistics</span>
+      </div>
+    </div>
+    <div class="about-card reveal reveal-delay-2">
+      <div class="about-card-item">
+        <div class="about-card-icon">📍</div>
+        <div class="about-card-text">
+          <strong>Location</strong>
+          <span>Hyderabad, India</span>
+        </div>
+      </div>
+      <div class="about-card-item">
+        <div class="about-card-icon">🎓</div>
+        <div class="about-card-text">
+          <strong>Education</strong>
+          <span>MA ELT — EFLU Hyderabad (2023–2025)</span>
+        </div>
+      </div>
+      <div class="about-card-item">
+        <div class="about-card-icon">🏢</div>
+        <div class="about-card-text">
+          <strong>Current Role</strong>
+          <span>Instructional Designer · NxtWave EdTech</span>
+        </div>
+      </div>
+      <div class="about-card-item">
+        <div class="about-card-icon">⏱</div>
+        <div class="about-card-text">
+          <strong>Notice Period</strong>
+          <span>1 Month</span>
+        </div>
+      </div>
+      <div class="about-card-item">
+        <div class="about-card-icon">💰</div>
+        <div class="about-card-text">
+          <strong>Expected CTC</strong>
+          <span>₹6 LPA</span>
+        </div>
+      </div>
+      <div class="about-card-item">
+        <div class="about-card-icon">📧</div>
+        <div class="about-card-text">
+          <strong>Email</strong>
+          <span>premdeepthomas001@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-label">What I Bring</div>
+  <h2 class="section-title">Skills &amp; <em>Expertise</em></h2>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🎯</div>
+      <div class="skill-card-title">Instructional Design</div>
+      <div class="skill-items">
+        <span class="skill-item">ADDIE</span>
+        <span class="skill-item">Bloom's Taxonomy</span>
+        <span class="skill-item">SAM Model</span>
+        <span class="skill-item">Needs Analysis</span>
+        <span class="skill-item">Storyboarding</span>
+        <span class="skill-item">Learning Objectives</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-1">
+      <div class="skill-card-icon">🛠</div>
+      <div class="skill-card-title">Tools &amp; Technology</div>
+      <div class="skill-items">
+        <span class="skill-item">Articulate Rise 360</span>
+        <span class="skill-item">Storyline 360</span>
+        <span class="skill-item">SCORM 1.2</span>
+        <span class="skill-item">Markdown</span>
+        <span class="skill-item">Canva</span>
+        <span class="skill-item">LMS Platforms</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-2">
+      <div class="skill-card-icon">📝</div>
+      <div class="skill-card-title">Content Development</div>
+      <div class="skill-items">
+        <span class="skill-item">Curriculum Design</span>
+        <span class="skill-item">Assessment Design</span>
+        <span class="skill-item">Verbal Ability</span>
+        <span class="skill-item">Critical Reasoning</span>
+        <span class="skill-item">Content QA</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-1">
+      <div class="skill-card-icon">🧠</div>
+      <div class="skill-card-title">Language &amp; Linguistics</div>
+      <div class="skill-items">
+        <span class="skill-item">ELT</span>
+        <span class="skill-item">Applied Linguistics</span>
+        <span class="skill-item">Learner Autonomy</span>
+        <span class="skill-item">Speaking Anxiety</span>
+        <span class="skill-item">CEFR Framework</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-2">
+      <div class="skill-card-icon">🤝</div>
+      <div class="skill-card-title">Professional</div>
+      <div class="skill-items">
+        <span class="skill-item">SME Collaboration</span>
+        <span class="skill-item">Agile Workflow</span>
+        <span class="skill-item">Content QA</span>
+        <span class="skill-item">Technical Writing</span>
+        <span class="skill-item">Research</span>
+      </div>
+    </div>
+    <div class="skill-card reveal reveal-delay-3">
+      <div class="skill-card-icon">🌐</div>
+      <div class="skill-card-title">Languages</div>
+      <div class="skill-items">
+        <span class="skill-item">English</span>
+        <span class="skill-item">Telugu</span>
+        <span class="skill-item">Malayalam</span>
+        <span class="skill-item">Tamil</span>
+        <span class="skill-item">French (Learning)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-label">Where I Have Worked</div>
+  <h2 class="section-title">Work <em>Experience</em></h2>
+  <div class="exp-timeline">
+    <div class="exp-item reveal">
+      <div class="exp-date">JUN 2025 — PRESENT</div>
+      <div class="exp-role">Instructional Designer &amp; Content Developer</div>
+      <div class="exp-company">NxtWave Disruptive Technologies &nbsp;·&nbsp; <span>Hyderabad</span></div>
+      <ul class="exp-bullets">
+        <li>Designed 30+ instructional modules in grammar, critical reasoning, and reading comprehension for 2,000+ learners across 17+ university partnerships, aligned to Bloom's Taxonomy learning objectives.</li>
+        <li>Developed e-learning courses using Articulate Rise 360 with SCORM 1.2 compatibility for seamless LMS deployment.</li>
+        <li>Storyboarded and scripted 10+ visual learning assets including annotated reading guides and interactive practice sets.</li>
+        <li>Built a 3-stage QA review framework eliminating factual errors across all published modules.</li>
+        <li>Collaborated with SMEs and cross-functional teams to deliver 100% of milestones on schedule within an agile EdTech workflow.</li>
+        <li>Structured all content using Markdown, reducing formatting time by ~40% and enabling seamless LMS-ready publishing.</li>
+      </ul>
+    </div>
+    <div class="exp-item reveal reveal-delay-1">
+      <div class="exp-date">SEP 2022 — OCT 2023</div>
+      <div class="exp-role">Translator &amp; Client Relations Agent</div>
+      <div class="exp-company">SBI Recovery Branch &nbsp;·&nbsp; <span>Hyderabad</span></div>
+      <ul class="exp-bullets">
+        <li>Translated complex financial and legal documents across 3 languages (English, Telugu, Malayalam) as a certified DRA candidate.</li>
+        <li>Built strong communication, stakeholder management, and persuasion skills through structured client follow-up sessions.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="section-label">What I Have Built</div>
+  <h2 class="section-title">Featured <em>Projects</em></h2>
+  <div class="projects-grid">
+    <div class="proj-card reveal">
+      <div class="proj-card-top">
+        <div class="proj-badge">Articulate Rise 360 · SCORM 1.2</div>
+        <div class="proj-title">Professional English for Real World Communication</div>
+        <div class="proj-desc">An 8-module e-learning course designed for college students entering professional environments. Covers grammar, verbal ability, workplace communication, and language confidence. Built end-to-end from storyboard to LMS-ready SCORM export.</div>
+      </div>
+      <div class="proj-card-bottom">
+        <span class="proj-tag">Rise 360</span>
+        <span class="proj-tag">SCORM 1.2</span>
+        <span class="proj-tag">Bloom's Taxonomy</span>
+        <span class="proj-tag">LMS Publishing</span>
+        <span class="proj-tag">8 Modules</span>
+        <span class="proj-tag">College Students</span>
+      </div>
+    </div>
+    <div class="proj-card reveal reveal-delay-1">
+      <div class="proj-card-top">
+        <div class="proj-badge">EFLU Dissertation · Qualitative Research</div>
+        <div class="proj-title">Examining the Effect of an AI Speaking App on Personalised Learning</div>
+        <div class="proj-desc">Original research at EFLU examining how EFL learners personalise Duolingo for speaking practice and anxiety reduction. Designed a 16-item observation checklist, observed 8 learners across CEFR levels A1–C2, and analysed behavioural patterns in AI-supported learning.</div>
+      </div>
+      <div class="proj-card-bottom">
+        <span class="proj-tag">Duolingo</span>
+        <span class="proj-tag">CEFR Framework</span>
+        <span class="proj-tag">Qualitative Research</span>
+        <span class="proj-tag">Google Forms</span>
+        <span class="proj-tag">Checklist Design</span>
+        <span class="proj-tag">Data Analysis</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="education" id="education">
+  <div class="section-label">Academic Background</div>
+  <h2 class="section-title">Education &amp; <em>Training</em></h2>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <div class="edu-degree">MA — English Language Teaching</div>
+      <div class="edu-school">The English and Foreign Languages University (EFLU), Hyderabad</div>
+      <div class="edu-year">2023 — 2025 &nbsp;·&nbsp; Full Time</div>
+      <div class="edu-note">Formerly CIEFL — India's premier language institution. Specialised in instructional design, Applied Linguistics, and research-based ELT methods.</div>
+    </div>
+    <div class="edu-card reveal reveal-delay-1">
+      <div class="edu-degree">BA — English Language and Literature</div>
+      <div class="edu-school">St Paul's College, Ernakulam</div>
+      <div class="edu-year">2019 — 2022 &nbsp;·&nbsp; Full Time</div>
+      <div class="edu-note">Affiliated with Mahatma Gandhi University. Built a strong foundation in English language, literature, and critical analysis.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="certs" id="certifications">
+  <div class="section-label">Additional Learning</div>
+  <h2 class="section-title">Certifications &amp; <em>Courses</em></h2>
+  <div class="certs-row">
+    <div class="cert-card reveal">
+      <div class="cert-icon">🏅</div>
+      <div>
+        <div class="cert-name">Certificate in Digital Marketing</div>
+        <div class="cert-org">IIM Bangalore via SWAYAM (NPTEL)</div>
+      </div>
+    </div>
+    <div class="cert-card reveal reveal-delay-1">
+      <div class="cert-icon">🏅</div>
+      <div>
+        <div class="cert-name">Certificate in Brand Management</div>
+        <div class="cert-org">IIM Bangalore via SWAYAM (NPTEL)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="section-label" style="text-align:center;">Let's Talk</div>
+    <h2 class="section-title reveal">Ready to build something <em>great</em> together?</h2>
+    <p class="contact-sub reveal">I am actively looking for Instructional Designer, Content Developer, and L&D roles. If you are hiring or know someone who is, I would love to connect.</p>
+    <div class="contact-links reveal">
+      <a href="mailto:premdeepthomas001@gmail.com" class="contact-link">✉ premdeepthomas001@gmail.com</a>
+      <a href="tel:+917981858328" class="contact-link">📞 +91 79818 58328</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>Thadigiri Premdeep &nbsp;·&nbsp; Instructional Designer</div>
+  <div>Hyderabad, India &nbsp;·&nbsp; <span>Available for Opportunities</span></div>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=mx-6+'px';
+  cursor.style.top=my-6+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*0.12;
+  ry+=(my-ry)*0.12;
+  ring.style.left=rx-18+'px';
+  ring.style.top=ry-18+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.transform='scale(2)';ring.style.transform='scale(0.5)';});
+  el.addEventListener('mouseleave',()=>{cursor.style.transform='scale(1)';ring.style.transform='scale(1)';});
+});
+
+// SCROLL REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.12});
+reveals.forEach(r=>observer.observe(r));
+
+// NAV ACTIVE
+window.addEventListener('scroll',()=>{
+  const nav=document.querySelector('nav');
+  nav.style.background=window.scrollY>50?'rgba(5,13,26,0.97)':'rgba(5,13,26,0.85)';
+});
+
+// COUNTER ANIMATION
+function animateCount(el, target, suffix=''){
+  let start=0;
+  const duration=1500;
+  const step=timestamp=>{
+    if(!start) start=timestamp;
+    const progress=Math.min((timestamp-start)/duration,1);
+    const val=Math.floor(progress*target);
+    el.textContent=val+(progress<1?'':suffix);
+    if(progress<1) requestAnimationFrame(step);
+    else el.textContent=target+suffix;
+  };
+  requestAnimationFrame(step);
+}
+
+const statNums=document.querySelectorAll('.stat-num');
+const statObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const text=e.target.textContent;
+      const num=parseInt(text);
+      const suffix=text.replace(num.toString(),'');
+      if(!isNaN(num)) animateCount(e.target,num,suffix);
+      statObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.5});
+statNums.forEach(n=>statObs.observe(n));
+</script>
+</body>
+</html>
